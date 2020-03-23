@@ -1,0 +1,30 @@
+{
+  "name": "lighthouse-comparator",
+  "version": "1.0.0",
+  "description": "cli tool for compare lighthouse reports",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LiegardP/lighthouse-comparator.git"
+  },
+  "keywords": [
+    "lighthouse",
+    "nodeJS",
+    "CLI",
+    "chrome"
+  ],
+  "author": "Pierre Liegard",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LiegardP/lighthouse-comparator/issues"
+  },
+  "homepage": "https://github.com/LiegardP/lighthouse-comparator#readme",
+  "devDependencies": {
+    "glob": "^7.1.6",
+    "lighthouse": "^5.6.0",
+    "yargs": "^15.3.1"
+  }
+}
