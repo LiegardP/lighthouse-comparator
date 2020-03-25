@@ -26,8 +26,25 @@ const launchChromeAndRunLighthouse = url => {
     });
 };
 
+const getContents = pathStr => { // path of json file
+    const output = fs.readFileSync(pathStr, "utf8", (err, results) => {
+      return results;
+    });
+    return JSON.parse(output); // return content of specific file
+};
+
+const compareReports = (from, to) => {
+    console.log(from["finalUrl"] + " " + from["fetchTime"]);
+    console.log(to["finalUrl"] + " " + to["fetchTime"]);
+};
+
 // launch function
-if (argv.url !== undefined) {
+if (argv.from && argv.to) { //if argument from && to are present
+    compareReports( // compare 2 reports 
+        getContents(argv.from + ".json"),
+        getContents(argv.to + ".json")
+    );
+} else if (argv.url !== undefined) { // if argument url is present 
     // save report into directory.
     const urlObj = new URL(argv.url);
     let dirName = urlObj.host.replace('www.','');
@@ -58,18 +75,13 @@ if (argv.url !== undefined) {
             const recentReport = new Date(max).toISOString();
 
         // get the contents of last report.
-        const recentReportContents = (() => {
-            const output = fs.readFileSync(
-                dirName + "/" + recentReport.replace(/:/g, "_") + ".json",
-                "utf8",
-                (err, results) => {
-                  return results;
-                }
-              );
-              return JSON.parse(output);
-        })();
-                
+        const recentReportContents = getContents(
+            dirName + '/' + recentReport.replace(/:/g, '_') + '.json'
+        );
+
+        // compare 2 reports
         compareReports(recentReportContents, results.js);
+
         }
 
         // to write reports and save onto right dir
@@ -82,11 +94,6 @@ if (argv.url !== undefined) {
             }
         );
     });
-
-    const compareReports = (from, to) => {
-        console.log(from["finalUrl"] + " " + from["fetchTime"]);
-        console.log(to["finalUrl"] + " " + to["fetchTime"]);
-    };
 
 } else {
     throw "You haven't passed a URL to Lighthouse"
